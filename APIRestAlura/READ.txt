@@ -1,0 +1,7 @@
+﻿1. View -> Other Windows -> Package Manager Console
+2. dotnet tool install --global dotnet-ef
+3. Se tiver uma versão antiga, execute primeiro: dotnet tool uninstall --global dotnet-ef, e depois execute novamente o passo 2.
+4. dotnet ef
+5. cd .\<Nome da Pasta do Projeto>
+5. dotnet ef migration add CreateInitial
+6. dotnet ef database update
