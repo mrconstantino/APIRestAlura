@@ -7,5 +7,7 @@ namespace APIRestAlura.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         public DbSet<Receitas> Receitas { get; set; }
+
+        public DbSet<Despesas> Despesas { get; set; }
     }
 }
