@@ -1,0 +1,13 @@
+###
+GET https://localhost:7164/Despesas
+
+###
+POST https://localhost:7164/Despesas
+Content-Type: application/json
+
+{
+  "id": 0,
+  "descricao": "Teste",
+  "valor": 4,
+  "dataDespesa": "2022-02-22T18:07:11.344Z"
+}
