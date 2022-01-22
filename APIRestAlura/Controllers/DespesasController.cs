@@ -44,6 +44,16 @@ namespace APIRestAlura.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Despesas>>> AddDespesa(Despesas despesa)
         {
+            if(_context.Despesas.Count() > uint.MinValue)
+            {
+                var dbDespesa = _context.Despesas.Where(x => despesa.Descricao == x.Descricao &&
+                despesa.DataDespesa.Year == x.DataDespesa.Year &&
+                despesa.DataDespesa.Month == x.DataDespesa.Month).SingleOrDefault();
+
+                if (dbDespesa != null)
+                    return BadRequest("Despesa já cadastrada!");
+            }
+
             _context.Despesas.Add(despesa);
             await _context.SaveChangesAsync();
             return Ok(await _context.Despesas.ToListAsync());
@@ -55,6 +65,16 @@ namespace APIRestAlura.Controllers
             var dbDespesa = await _context.Despesas.FindAsync(request.Id);
             if (dbDespesa == null)
                 return BadRequest("Despesa não encontrada!");
+
+            if (_context.Despesas.Count() > uint.MinValue)
+            {
+                var dbDespesaUpd = _context.Despesas.Where(x => request.Descricao == x.Descricao &&
+                request.DataDespesa.Year == x.DataDespesa.Year &&
+                request.DataDespesa.Month == x.DataDespesa.Month).SingleOrDefault();
+
+                if (dbDespesaUpd != null)
+                    return BadRequest("Despesa já cadastrada!");
+            }
 
             dbDespesa.Descricao = request.Descricao;
             dbDespesa.Valor = request.Valor;

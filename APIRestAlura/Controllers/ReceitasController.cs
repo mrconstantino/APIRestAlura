@@ -49,6 +49,16 @@ namespace APIRestAlura.Controllers
         [HttpPost]
         public async Task<ActionResult<List<Receitas>>> AddReceita(Receitas receita)
         {
+            if (_context.Receitas.Count() > uint.MinValue)
+            {
+                var dbReceita = _context.Receitas.Where(x => receita.Descricao == x.Descricao &&
+                receita.DataReceita.Year == x.DataReceita.Year &&
+                receita.DataReceita.Month == x.DataReceita.Month).SingleOrDefault();
+
+                if (dbReceita != null)
+                    return BadRequest("Receita já cadastrada!");
+            }
+
             _context.Receitas.Add(receita);
             await _context.SaveChangesAsync();
             return Ok(await _context.Receitas.ToListAsync());
@@ -60,7 +70,17 @@ namespace APIRestAlura.Controllers
             var dbReceita = await _context.Receitas.FindAsync(request.Id);
             if (dbReceita == null)
                 return BadRequest("Receita não encontrada!");
-            
+
+            if (_context.Receitas.Count() > uint.MinValue)
+            {
+                var dbReceitaUpd = _context.Receitas.Where(x => request.Descricao == x.Descricao &&
+                request.DataReceita.Year == x.DataReceita.Year &&
+                request.DataReceita.Month == x.DataReceita.Month).SingleOrDefault();
+
+                if (dbReceitaUpd != null)
+                    return BadRequest("Receita já cadastrada!");
+            }
+
             dbReceita.Descricao = request.Descricao;
             dbReceita.Valor = request.Valor;
             dbReceita.DataReceita = request.DataReceita;
