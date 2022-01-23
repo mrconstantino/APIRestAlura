@@ -1,3 +1,4 @@
+### Despesas
 ###
 GET https://localhost:7164/Despesas
 
@@ -7,7 +8,60 @@ Content-Type: application/json
 
 {
   "id": 0,
-  "descricao": "Teste",
+  "descricao": "Olá",
   "valor": 4,
   "dataDespesa": "2022-02-22T18:07:11.344Z"
 }
+
+###
+PUT https://localhost:7164/Despesas
+Content-Type: application/json
+
+{
+  "id": 6,
+  "descricao": "Teste 6",
+  "valor": 5,
+  "dataDespesa": "2022-02-22T18:07:11.344"
+}
+
+###
+GET https://localhost:7164/Despesas/6
+Content-Type: application/json
+
+###
+DELETE https://localhost:7164/Despesas/6
+Content-Type: application/json
+
+### Receitas
+###
+GET https://localhost:7164/Receitas
+
+###
+POST https://localhost:7164/Receitas
+Content-Type: application/json
+
+{
+  "id": 0,
+  "descricao": "Olá",
+  "valor": 4,
+  "dataDespesa": "2022-02-22T18:07:11.344Z"
+}
+
+###
+PUT https://localhost:7164/Receitas
+Content-Type: application/json
+
+{
+  "id": 6,
+  "descricao": "Teste 6",
+  "valor": 5,
+  "dataDespesa": "2022-02-22T18:07:11.344"
+}
+
+###
+GET https://localhost:7164/Receitas/6
+Content-Type: application/json
+
+###
+DELETE https://localhost:7164/Receitas/6
+Content-Type: application/json
