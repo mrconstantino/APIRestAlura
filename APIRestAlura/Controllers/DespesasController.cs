@@ -6,19 +6,6 @@ namespace APIRestAlura.Controllers
     [Route("[controller]")]
     public class DespesasController : ControllerBase
     {
-        //[HttpGet(Name = "GetDespesas")]
-        //public IEnumerable<Despesas> Get()
-        //{
-        //    return Enumerable.Range(1, 1).Select(index => new Despesas
-        //    {
-        //        Id = 1,
-        //        Descricao = "Descricao Teste",
-        //        Valor = 10.55M,
-        //        DataReceita = DateTime.Now
-        //    })
-        //    .ToArray();
-        //}
-
         private readonly DataContext _context;
 
         public DespesasController(DataContext context)
@@ -32,13 +19,43 @@ namespace APIRestAlura.Controllers
             return Ok(await _context.Despesas.ToListAsync());
         }
 
-        [HttpGet("{Id}")]
-        public async Task<ActionResult<List<Despesas>>> Get(int Id)
+        [HttpGet("GetById/{Id}")]
+        public async Task<ActionResult<List<Despesas>>> GetById(int Id)
         {
             var despesa = await _context.Despesas.FindAsync(Id);
             if (despesa == null)
                 return BadRequest("Despesa não encontrada!");
             return Ok(despesa);
+        }
+
+        [HttpGet("GetByDescription/{Descricao}")]
+        public async Task<ActionResult<List<Despesas>>> GetByDescription(string? Descricao)
+        {
+            if (string.IsNullOrEmpty(Descricao))
+            {
+                return Ok(await _context.Despesas.ToListAsync());
+            }
+            else
+            {
+                var despesa = _context.Despesas.AsQueryable();
+
+                despesa = despesa.Where(x => x.Descricao.Contains(Descricao));
+                if (despesa.Count() == uint.MinValue)
+                    return BadRequest("Despesa não encontrada!");
+                return Ok(await despesa.ToListAsync());
+            }            
+        }
+
+        [HttpGet("GetByReference/{Ano}/{Mes}")]
+        public async Task<ActionResult<List<Despesas>>> GetByReference(int Ano, int Mes)
+        {
+            var despesa = _context.Despesas.AsQueryable();
+
+            despesa = despesa.Where(x => x.DataDespesa.Year == Ano && x.DataDespesa.Month == Mes);
+            if (despesa.Count() == uint.MinValue)
+                return BadRequest("Despesa não encontrada!");
+            return Ok(await despesa.ToListAsync());
+            
         }
 
         [HttpPost]
@@ -52,6 +69,11 @@ namespace APIRestAlura.Controllers
 
                 if (dbDespesa != null)
                     return BadRequest("Despesa já cadastrada!");
+            }
+
+            if(despesa.Categoria == null || despesa.Categoria == uint.MinValue)
+            {
+                despesa.Categoria = Enumerators.Despesas.EnumCategoria.Outras;
             }
 
             _context.Despesas.Add(despesa);

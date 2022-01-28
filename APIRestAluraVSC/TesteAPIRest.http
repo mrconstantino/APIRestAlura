@@ -10,7 +10,8 @@ Content-Type: application/json
   "id": 0,
   "descricao": "Olá",
   "valor": 4,
-  "dataDespesa": "2022-02-22T18:07:11.344Z"
+  "dataDespesa": "2022-02-22T18:07:11.344Z",
+  "Categoria": 3
 }
 
 ###
@@ -64,4 +65,20 @@ Content-Type: application/json
 
 ###
 DELETE https://localhost:7164/Receitas/6
+Content-Type: application/json
+
+###
+GET https://localhost:7164/Despesas/GetByDescription/string
+Content-Type: application/json
+
+###
+GET https://localhost:7164/Receitas/GetByDescription/string
+Content-Type: application/json
+
+###
+GET https://localhost:7164/Despesas/GetByReference/2022/1
+Content-Type: application/json
+
+###
+GET https://localhost:7164/Receitas/GetByReference/2022/1
 Content-Type: application/json

@@ -30,6 +30,9 @@ namespace APIRestAlura.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<byte>("Categoria")
+                        .HasColumnType("tinyint");
+
                     b.Property<DateTime>("DataDespesa")
                         .HasColumnType("datetime2");
 

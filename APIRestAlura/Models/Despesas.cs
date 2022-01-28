@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using static APIRestAlura.Enumerators.Despesas;
 
 namespace APIRestAlura
 {
@@ -12,5 +13,6 @@ namespace APIRestAlura
         public decimal Valor { get; set; }
         [Required]
         public DateTime DataDespesa { get; set; }
+        public EnumCategoria? Categoria { get; set; }
     }
 }

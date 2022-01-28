@@ -6,24 +6,6 @@ namespace APIRestAlura.Controllers
     [Route("[controller]")]
     public class ReceitasController : ControllerBase
     {
-        //private static List<Receitas> receitas = new List<Receitas>
-        //{
-        //    new Receitas
-        //    {
-        //        Id = 1,
-        //        Descricao = "Descrição Inserida",
-        //        Valor = 11.66M,
-        //        DataReceita = DateTime.Now
-        //    },
-        //    new Receitas
-        //    {
-        //        Id = 2,
-        //        Descricao = "Descrição Inserida 2",
-        //        Valor = 17.66M,
-        //        DataReceita = DateTime.Now
-        //    }
-        //};
-
         private readonly DataContext _context;
 
         public ReceitasController(DataContext context)
@@ -44,6 +26,45 @@ namespace APIRestAlura.Controllers
             if (receita == null)
                 return BadRequest("Receita não encontrada!");
             return Ok(receita);
+        }
+
+        [HttpGet("GetById/{Id}")]
+        public async Task<ActionResult<List<Receitas>>> GetById(int Id)
+        {
+            var receita = await _context.Receitas.FindAsync(Id);
+            if (receita == null)
+                return BadRequest("Receita não encontrada!");
+            return Ok(receita);
+        }
+
+        [HttpGet("GetByDescription/{Descricao}")]
+        public async Task<ActionResult<List<Receitas>>> GetByDescription(string? Descricao)
+        {
+            if (string.IsNullOrEmpty(Descricao))
+            {
+                return Ok(await _context.Receitas.ToListAsync());
+            }
+            else
+            {
+                var receita = _context.Receitas.AsQueryable();
+
+                receita = receita.Where(x => x.Descricao.Contains(Descricao));
+                if (receita.Count() == uint.MinValue)
+                    return BadRequest("Receita não encontrada!");
+                return Ok(await receita.ToListAsync());
+            }
+        }
+
+        [HttpGet("GetByReference/{Ano}/{Mes}")]
+        public async Task<ActionResult<List<Receitas>>> GetByReference(int Ano, int Mes)
+        {
+            var receita = _context.Receitas.AsQueryable();
+
+            receita = receita.Where(x => x.DataReceita.Year == Ano && x.DataReceita.Month == Mes);
+            if (receita.Count() == uint.MinValue)
+                return BadRequest("Receita não encontrada!");
+            return Ok(await receita.ToListAsync());
+
         }
 
         [HttpPost]

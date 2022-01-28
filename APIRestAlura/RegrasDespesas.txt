@@ -1,0 +1,9 @@
+﻿Categorias de Despesas:
+1 * Alimentação
+2 * Saúde
+3 * Moradia
+4 * Transporte
+5 * Educação
+6 * Lazer
+7 * Imprevistos
+8 * Outras

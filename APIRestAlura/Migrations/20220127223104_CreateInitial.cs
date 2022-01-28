@@ -17,7 +17,8 @@ namespace APIRestAlura.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DataDespesa = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DataDespesa = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Categoria = table.Column<byte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
                 {

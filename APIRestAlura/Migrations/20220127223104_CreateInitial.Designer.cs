@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APIRestAlura.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220121001230_CreateInitial")]
+    [Migration("20220127223104_CreateInitial")]
     partial class CreateInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,6 +31,9 @@ namespace APIRestAlura.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<byte>("Categoria")
+                        .HasColumnType("tinyint");
 
                     b.Property<DateTime>("DataDespesa")
                         .HasColumnType("datetime2");
